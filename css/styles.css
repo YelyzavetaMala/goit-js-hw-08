@@ -2,10 +2,6 @@ ul {
     padding-inline-start: 0;
 }
 
-.container {
-    max-width: 1440;
-    
-}
 
 .gallery {
     display: flex;

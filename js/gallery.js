@@ -112,3 +112,36 @@ galleryContainer.addEventListener('click', function (event) {
   }
 });
 
+
+
+
+galleryContainer.addEventListener('click', onGalleryItemClick);
+
+function onGalleryItemClick(event) {
+  event.preventDefault();
+
+  if (event.target.nodeName !== 'IMG') {
+    return;
+  }
+
+  const largeImageSrc = event.target.dataset.source; 
+
+  if (lightboxInstance) {
+    lightboxInstance.close();
+  }
+
+  const instance = basicLightbox.create(`
+    <img src="${largeImageSrc}" width="800" height="600">
+  `);
+
+  instance.show();
+
+  window.addEventListener('keydown', onKeyPress);
+}
+
+function onKeyPress(event) {
+  if (event.code === 'Escape') {
+    lightboxInstance.close();
+    window.removeEventListener('keydown', onKeyPress);
+  }
+}
