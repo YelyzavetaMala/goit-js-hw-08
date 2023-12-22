@@ -64,3 +64,51 @@ const images = [
   },
 ];
 
+const galleryContainer = document.querySelector('.gallery');
+
+function createGalleryItem(image) {
+  const galleryItem = document.createElement('li');
+  galleryItem.classList.add('gallery-item');
+
+  const galleryLink = document.createElement('a');
+  galleryLink.classList.add('gallery-link');
+  galleryLink.href = image.original;
+
+  const galleryImage = document.createElement('img');
+  galleryImage.classList.add('gallery-image');
+  galleryImage.src = image.preview;
+  galleryImage.dataset.source = image.original;
+  galleryImage.alt = image.description;
+
+  galleryLink.appendChild(galleryImage);
+  galleryItem.appendChild(galleryLink);
+
+  return galleryItem;
+}
+
+function createGallery(images) {
+  const galleryFragment = document.createDocumentFragment();
+
+  images.forEach((image) => {
+    const galleryItem = createGalleryItem(image);
+    galleryFragment.appendChild(galleryItem);
+  });
+
+  galleryContainer.appendChild(galleryFragment);
+}
+
+
+createGallery(images);
+
+galleryContainer.addEventListener('click', function (event) {
+  event.preventDefault();
+
+  const galleryImage = event.target.closest('.gallery-image');
+
+  if (galleryImage) {
+    const largeImageSrc = galleryImage.dataset.source;
+
+    console.log(largeImageSrc);
+  }
+});
+
