@@ -65,6 +65,7 @@ const images = [
 ];
 
 const galleryContainer = document.querySelector('.gallery');
+let lightboxInstance;
 
 function createGalleryItem(image) {
   const galleryItem = document.createElement('li');
@@ -100,19 +101,6 @@ function createGallery(images) {
 
 createGallery(images);
 
-galleryContainer.addEventListener('click', function (event) {
-  event.preventDefault();
-
-  const galleryImage = event.target.closest('.gallery-image');
-
-  if (galleryImage) {
-    const largeImageSrc = galleryImage.dataset.source;
-
-    console.log(largeImageSrc);
-  }
-});
-
-
 
 
 galleryContainer.addEventListener('click', onGalleryItemClick);
@@ -130,18 +118,20 @@ function onGalleryItemClick(event) {
     lightboxInstance.close();
   }
 
-  const instance = basicLightbox.create(`
+  lightboxInstance = basicLightbox.create(`
     <img src="${largeImageSrc}" width="800" height="600">
   `);
 
-  instance.show();
+  lightboxInstance.show();
 
   window.addEventListener('keydown', onKeyPress);
 }
 
 function onKeyPress(event) {
   if (event.code === 'Escape') {
-    lightboxInstance.close();
+     if (lightboxInstance) {
+      lightboxInstance.close();
+    }
     window.removeEventListener('keydown', onKeyPress);
   }
 }
