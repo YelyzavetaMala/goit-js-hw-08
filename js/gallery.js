@@ -98,9 +98,7 @@ function createGallery(images) {
   galleryContainer.appendChild(galleryFragment);
 }
 
-
 createGallery(images);
-
 
 
 galleryContainer.addEventListener('click', onGalleryItemClick);
@@ -120,11 +118,16 @@ function onGalleryItemClick(event) {
 
   lightboxInstance = basicLightbox.create(`
     <img src="${largeImageSrc}" width="800" height="600">
-  `);
+  `, {
+    onShow: () => {
+      window.addEventListener('keydown', onKeyPress);
+    },
+    onClose: () => {
+      window.removeEventListener('keydown', onKeyPress);
+    },
+  });
 
   lightboxInstance.show();
-
-  window.addEventListener('keydown', onKeyPress);
 }
 
 function onKeyPress(event) {
@@ -132,6 +135,5 @@ function onKeyPress(event) {
      if (lightboxInstance) {
       lightboxInstance.close();
     }
-    window.removeEventListener('keydown', onKeyPress);
   }
 }
